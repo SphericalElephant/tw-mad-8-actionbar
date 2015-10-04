@@ -335,7 +335,7 @@ In order to use this implementation of the ActionBar pattern, you will have to u
 
 ## AppCompat - General Information 2
 
-* Unlike ActionBarSherlock, which dispatches calls to the ActionBar if the currently running Android version nativly supports the ActionBar, the compatibility version does not do that
+* Unlike ActionBarSherlock, which dispatches calls to the ActionBar if the currently running Android version natively supports the ActionBar, the compatibility version does not do that
 
 ## AppCompat - General Information 3
 
@@ -447,7 +447,7 @@ public class TabListener
 	* Separation of convern
 	* Flexible
 	* SOLID
-* The API is very similar to what we have seen before, but the ``OnTabSelectedListener`` does not provide a ``FragmentTransaction``, we need to handle everything manually, again this is far more flexible compared to what we had before
+* The API is very similar to what we have seen before, but the ``OnTabSelectedListener`` does not provide a ``FragmentTransaction``, we need to handle everything manually, again this is far more flexible compared to what we had before.
 
 # Conclusion
 
