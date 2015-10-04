@@ -26,10 +26,10 @@
 
 ## ActionBar - Introduction 2
 
-![ActionBar1 (source: http://developers.android.com/)](../actionbar-item-withtext.png)
+![ActionBar (source: http://developers.android.com/)](../actionbar-item-withtext.png)
 
 
-![ActionBar1 (source: http://developers.android.com/)](../actionbar-tabs@2x.png)
+![ActionBar (source: http://developers.android.com/)](../actionbar-tabs@2x.png)
 
 ## ActionBar - Concepts 1
 
@@ -162,15 +162,16 @@ xmlns:android="http://schemas.android.com/apk/res/android" >
 </menu>
 ```
 
+# ActionBar Menu
 
-## ActionBarSherlock - Menu 1
+## ActionBar - Menu 1
 
 * The Menu resource for the ActionBar and ActionBarSherlock are compatible, the MenuInflater you need to use depends on the implementation though!
 * As other layout / menu resources, an item can have an android:id, which is used to refer to the item from code
 * android:title is the text to be displayed
 * android:icon can be used to specify an image resource, that will be displayed left to the text, if certain conditions are met
 
-## ActionBarSherlock - Menu 2
+## ActionBar - Menu 2
 
 * android:showAsAction is used to specify if and how an item will be shown, it takes the following parameters, that can also be combined using the | operator
 	* ifRoom - item will only be shown if there is room for it
@@ -179,10 +180,174 @@ xmlns:android="http://schemas.android.com/apk/res/android" >
 	* always - item will always be shown, careful, can result in overlapping ActionBar items!
 * If there is no space left, items will be placed in the overflow menu (currently no icon support!)
 
-## ActionBarSherlock - Menu 3
+## ActionBar - Menu 3
 
 * In addition to simple ActionBar items, you may use so called ActionViews
 * An ActionView is defined in a layout file (very much like a layout you would normally use for Activities / Fragments)
 * Make sure to keep it simple when using ActionViews
 * Do you really need the ActionView?
 * Prominent example: SearchView (ActionbarSherlock has a compat version.)
+
+
+## ActionBar - Menu 4
+
+```xml
+<?xml version="1.0" encoding="utf-8"?> 
+<CheckBox
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent" />
+```
+
+## ActionBar - Menu 5
+
+```xml
+<?xml version="1.0" encoding="utf-8"?> 
+<menu 
+    xmlns:android="http://schemas.android.com/apk/res/android" > 
+    <item android:id="@+id/mymenu_test" 
+          android:title="test" 
+          android:showAsAction="ifRoom"/> 
+    <item android:id="@+id/mymenu_actionview" 
+          android:actionLayout="@layout/myactionview" 
+          android:showAsAction="ifRoom"/> 
+</menu>
+```
+
+## ActionBar - Menu 6
+
+```java
+@Override 
+public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) { 
+	MenuInflater i = new MenuInflater(this); 
+	i.inflate(R.menu.mymenu, menu); 
+	((CheckBox) menu.findItem(R.id.mymenu_actionview)
+		.getActionView())
+		.setOnCheckedChangeListener(
+		new OnCheckedChangeListener() {
+
+		@Override 
+		public void onCheckedChanged(
+			CompoundButton buttonView, 							boolean isChecked) { 
+			System.out.println("Check Changed: " + 
+				isChecked); 
+		} 
+	}); 
+	return super.onCreateOptionsMenu(menu); 
+}
+```
+
+## ActionBar - Tabs 1
+
+* As mentioned before, ActionBar supports tabs
+* Tabs should be used for navigation
+* If you are using an ActionBar, do not use TabWidget, instead, add the tabs to the ActionBar directly
+* Usually tabs are used to switch between Fragments – ActionBar.TabListener will help you do that
+
+## ActionBar - Tabs 2
+
+```java
+@Override 
+public void onCreate(Bundle savedInstanceState) { 
+	super.onCreate(savedInstanceState); 
+	setContentView(R.layout.activity_main); 
+	ActionBar b = getSupportActionBar(); 
+	b.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	b.setDisplayShowTitleEnabled(false);
+	Tab tab1 = b.newTab().setText("SomeText") 
+		.setTabListener(t); 
+	Tab tab2 = b.newTab().setText("SomeText1") 
+		.setTabListener(t); 
+	b.addTab(tab1); 
+	b.addTab(tab2);
+```
+
+## ActionBar - Tabs 3
+
+```java
+ActionBar.TabListener t = new ActionBar.TabListener() { 
+	@Override 
+	public void onTabUnselected(Tab tab,
+		FragmentTransaction ft) { 
+	} 
+
+	@Override 
+	public void onTabSelected(Tab tab,
+		FragmentTransaction ft) { 
+		ft.replace(R.id.somefragmentid, someFragment);
+		// DO NOT COMMIT THE TRANSACTION!
+	} 
+
+	@Override 
+	public void onTabReselected(Tab tab,
+		FragmentTransaction ft) {
+	} 
+};
+```
+
+## ActionBar - Tabs 4
+
+* Do not commit the FragmentTransaction provided by any callback method of * ActionBar.TabListener, Android will do that for you! In addition, you will not be able to place these FragmentTransactions on the back stack
+* Sometimes, Android will use a drop down list to display the tabs (one instance: tablet in portrait mode)
+
+## ActionBar - ActionMode 1
+
+* CAB – Contextual Action Bar!
+* The ActionMode allows developers to create a contextual ActionBar
+Examples:
+	* Deleting multiple items from a list (i.e. selecting multiple items)
+	* Marking text and offering text edit options
+* Usually, regular parts of the UI are replaced as long is the ActionMode is active
+* Can be triggered by several options, developer’s choice (e.g. long click on an item)
+
+## ActionBar - ActionMode 2
+
+* In order to implement an ActionMode, one has to work with the ActionMode.Callback interface
+* The UI of the ActionMode is defined using XML
+	* Basically, it is nothing more than a menu
+* The ActionMode.Callback interface provides the following callback methods that need to be implemented
+* onCreateActionMode(ActionMode mode, Menu menu)
+	* Called when the ActionMode is created, use mode.getMenuInflater() to inflate your menu based UI. You must return true here, otherwise your ActionMode will not be shown!
+
+## ActionBar - ActionMode 3
+
+* onPrepareActionMode(ActionMode mode, Menu menu)
+	* Gets called every time the ActionMode has been invalidated, return true here if you want to inform the system that an update has occurred
+* onActionItemClicked(ActionMode mode, MenuItem item)
+	* This callback method allows you to intercept item clicks (very much like onOptionsItemSelected, return true here if you have handled the event here and don’t wish to distribute the event any further
+* onDestroyActionMode(ActionMode mode)
+	* Do your cleanup here
+
+## ActionBar - ActionMode 4
+
+* You can start the ActionMode by using Activity.startActionMode(callback)
+* As you can see, the ActionMode as such is defined by your implementation of the ActionMode.Callback interface
+* Please refer to [http://developer.android.com/guide/topics/ui/menus.html#CAB](http://developer.android.com/guide/topics/ui/menus.html#CAB) in order to learn about standard procedures regarding multiselect (ListView, etc) and triggering the CAB
+
+# Compatibility ActionBar 
+
+## AppCompat 1
+
+* If you want to, you can use the Compatibility ActionBar provided by Google
+* Was added to the compatibility v7 library in revision 18 (July 2013)
+* The v7 compatibility library runs from API level 7 onwards -> Android 2.1
+In order to use this implementation of the ActionBar pattern, you will have to use a special theme: Theme.AppCompat (sounds familiar, doesn’t it)
+
+## AppCompat 2
+
+* Unlike ActionBarSherlock, which dispatches calls to the ActionBar if the currently running Android version nativly supports the ActionBar, the compatibility version does not do that
+
+## AppCompat 3
+
+* In order to make use of the compatibility ActionBar, you need to use the ActionBarActivity which itself is a v4 FragmentActivity.
+* Instead of using getActionBar(), you need to use getSupportActionBar() 
+* There are several other onSupport* methods that can be implemented in order to change the ActionBar’s behaviour (like “up” navigation behaviour)
+
+# Conclusion
+
+## Conclusion
+* The ActionBar pattern is important. It replaces the menu (button) on newer devices, even though there are backwards compatible menus available.
+* There is much more to ActionBar, please check out the documentation
+	* ActionProvider
+	* Drop down navigation
+Theming
