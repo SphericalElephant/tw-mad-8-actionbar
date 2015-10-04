@@ -22,7 +22,7 @@
 * The ActionBar is available on Honeycomb+, but there are ways to provide a compatibility ActionBar using ActionBarSherlock or the support library ActionBar
 * Android 5.x's material design added a new form of the ActionBar: Toolbar
 * Overall, there are 4 (yes 4!!!!111) flavors of "ActionBars" that can be found in the wild ...
-* ... we will cover all of them <3
+* ... we will cover all of them, since you might need to work on a legacy app <3
 
 ## ActionBar - Introduction 2
 
@@ -326,22 +326,128 @@ Examples:
 
 # Compatibility ActionBar 
 
-## AppCompat 1
+## AppCompat - General Information 1
 
 * If you want to, you can use the Compatibility ActionBar provided by Google
 * Was added to the compatibility v7 library in revision 18 (July 2013)
 * The v7 compatibility library runs from API level 7 onwards -> Android 2.1
 In order to use this implementation of the ActionBar pattern, you will have to use a special theme: Theme.AppCompat (sounds familiar, doesn’t it)
 
-## AppCompat 2
+## AppCompat - General Information 2
 
 * Unlike ActionBarSherlock, which dispatches calls to the ActionBar if the currently running Android version nativly supports the ActionBar, the compatibility version does not do that
 
-## AppCompat 3
+## AppCompat - General Information 3
 
-* In order to make use of the compatibility ActionBar, you need to use the ActionBarActivity which itself is a v4 FragmentActivity.
+* In order to make use of the compatibility ActionBar, you need to use the ActionBarActivity which itself is a v4 FragmentActivity. (FragmentActivity -> AppCompatActivity -> ActionBarActivity)
 * Instead of using getActionBar(), you need to use getSupportActionBar() 
 * There are several other onSupport* methods that can be implemented in order to change the ActionBar’s behaviour (like “up” navigation behaviour)
+
+# Toolbar
+
+## Toolbar - Resources 1
+
+* [http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html](http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html)
+* JavaDoc:
+	* [https://developer.android.com/reference/android/support/v7/widget/Toolbar.html](https://developer.android.com/reference/android/support/v7/widget/Toolbar.html)
+
+## Toolbar - Introduction 1
+
+* Part of the support library
+* Preferred way to do things now
+* Unlike the real ActionBar, Toolbar is part of your layout now and not part of the window decorations, which get managed by the framework
+* Toolbar is AppCompat as well, we need to use an AppCompat theme: Theme.AppCompat.*
+* Toolbar does not support tabs by default, needs to be explicitly declared!
+	* If you need tabs, use the design support library: ``compile 'com.android.support:design:22.2.0'``
+
+## Toolbar - Introduction 2
+
+* Toolbar supports two modes:
+	* A more flexible ActionBar, functions as a drop in replacement
+		* You need to use a theme not containing the ActionBar: Theme.AppCompat.NoActionBar
+	* Standalone mode
+		* Since Toolbar is part of your view hierarchie and is in fact treated like a regular view, you can use multiple Toolbars in a single layout
+
+## Toolbar - Example 1
+
+```xml
+<android.support.v7.widget.Toolbar
+    android:id="@+id/activity_myactivity_tb_toolbar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent" />
+```
+
+## Toolbar - Example 2
+
+```java
+@Override
+public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_myactivity);
+	Toolbar toolbar = (Toolbar) 
+	findViewById(R.id.activity_myactivity_tb_toolbar);
+
+	// replacing our original ActionBar with Toolbar
+	setSupportActionBar(toolbar);
+}
+```
+
+## Toolbar - Example 3
+
+```xml
+<android.support.design.widget.AppBarLayout
+	android:id="@+id/activity_myactivity_abl_appbar"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:theme="@style/MyBaseTheme" >
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/activity_myactivity_tb_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		app:layout_scrollFlags="scroll|enterAlways"
+		android:background="?attr/colorPrimary"
+		app:popupTheme="@style/Theme.AppCompat.Light"
+		app:titleTextAppearance="@style/TextAppearance.ActionBar" />
+```
+
+## Toolbar - Example 3 (cont.)
+
+```xml
+<android.support.design.widget.AppBarLayout>
+	...
+	<android.support.design.widget.TabLayout
+		android:id="@+id/activity_myactivity_tl_tabs"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+</android.support.design.widget.AppBarLayout>
+```
+
+## Toolbar - Example 4
+```java
+public class TabListener
+	implements OnTabSelectedListener {
+	@Override
+	public void onTabReselected(Tab tab) {
+	}
+
+	@Override
+	public void onTabSelected(Tab tab) {
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab) {
+	}
+}
+```
+
+## Toolbar - Tab Example Explaind
+
+* We are using a container layout and highligh specialized views / layouts to accomplish what the ActionBar was capable of before
+	* Separation of convern
+	* Flexible
+	* SOLID
+* The API is very similar to what we have seen before, but the ``OnTabSelectedListener`` does not provide a ``FragmentTransaction``, we need to handle everything manually, again this is far more flexible compared to what we had before
 
 # Conclusion
 
@@ -350,4 +456,4 @@ In order to use this implementation of the ActionBar pattern, you will have to u
 * There is much more to ActionBar, please check out the documentation
 	* ActionProvider
 	* Drop down navigation
-Theming
+	* Theming
