@@ -479,7 +479,7 @@ public class TabListener
 
 * On some versions, this does not seem to work, ``actionBarToolbar.setVisibility(View.GONE);`` and ``actionBarToolbar.setVisibility(View.VISIBLE);`` must be called in ``onCreateActionMode`` and ``onDestroyActionMode`` respectivly.
 
-## Toolbar - Tab Example Explaind
+## Toolbar - 10 - Tab Example Explaind
 
 * We are using a container layout and highligh specialized views / layouts to accomplish what the ActionBar was capable of before
   * Separation of concerns
@@ -489,7 +489,7 @@ public class TabListener
 
 # Conclusion
 
-## Conclusion
+## Conclusion - 1 - Conclusion
 * The ActionBar pattern is important. It replaces the menu (button) on current devices, even though there are backwards compatible menus available.
 * There is much more to ActionBar, please check out the documentation
 	* ActionProvider
