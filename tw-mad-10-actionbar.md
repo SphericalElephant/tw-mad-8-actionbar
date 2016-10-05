@@ -24,7 +24,7 @@
 * It took more than one try to get this pattern right
 * The ActionBar is also known as the "App Bar" (apparently, one descriptive term was not enough -.-)
 * We are going to cover all possibilities, since they can still be encountered in the wild!
-    * If you are starting a new application, do yourself a favour and use the toolbar
+    * If you are starting a new application, do yourself a favour and use the Toolbar
 
 # ActionBar(s) and Concepts
 
@@ -179,7 +179,8 @@ public boolean onOptionsItemSelected(MenuItem item) {
 ```xml
 <?xml version="1.0" encoding="utf-8"?> 
 <menu 
-  xmlns:android="http://schemas.android.com/apk/res/android" > 
+  xmlns:android=
+    "http://schemas.android.com/apk/res/android"> 
   <item android:id="@+id/mymenu_test" 
     android:title="test" 
     android:showAsAction="ifRoom"/> 
@@ -217,7 +218,8 @@ public boolean onOptionsItemSelected(MenuItem item) {
 ```xml
 <?xml version="1.0" encoding="utf-8"?> 
 <CheckBox
-  xmlns:android="http://schemas.android.com/apk/res/android" 
+  xmlns:android=
+    "http://schemas.android.com/apk/res/android" 
   android:layout_width="match_parent" 
   android:layout_height="match_parent" />
 ```
@@ -227,7 +229,8 @@ public boolean onOptionsItemSelected(MenuItem item) {
 ```xml
 <?xml version="1.0" encoding="utf-8"?> 
 <menu 
-  xmlns:android="http://schemas.android.com/apk/res/android" > 
+  xmlns:android=
+    "http://schemas.android.com/apk/res/android" > 
   <item android:id="@+id/mymenu_test" 
     android:title="test" 
     android:showAsAction="ifRoom"/> 
@@ -241,7 +244,8 @@ public boolean onOptionsItemSelected(MenuItem item) {
 
 ```java
 @Override 
-public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) { 
+public boolean onCreateOptionsMenu(
+  com.actionbarsherlock.view.Menu menu) { 
   MenuInflater i = new MenuInflater(this); 
   i.inflate(R.menu.mymenu, menu); 
   ((CheckBox) menu.findItem(R.id.mymenu_actionview)
@@ -289,21 +293,19 @@ public void onCreate(Bundle savedInstanceState) {
 
 ```java
 ActionBar.TabListener t = new ActionBar.TabListener() { 
-  @Override 
+  @Override
   public void onTabUnselected(Tab tab,
-  FragmentTransaction ft) { 
-  } 
-
-  @Override 
+    FragmentTransaction ft) { 
+  }
+  @Override
   public void onTabSelected(Tab tab,
-  FragmentTransaction ft) { 
+    FragmentTransaction ft) { 
     ft.replace(R.id.somefragmentid, someFragment);
     // DO NOT COMMIT THE TRANSACTION!
-  } 
-
-  @Override 
+  }
+  @Override
   public void onTabReselected(Tab tab,
-  FragmentTransaction ft) {
+    FragmentTransaction ft) {
   } 
 };
 ```
@@ -358,6 +360,9 @@ ActionBar.TabListener t = new ActionBar.TabListener() {
 * If you want to, you can use the Compatibility ActionBar provided by Google
 * Was added to the compatibility v7 library in revision 18 (July 2013)
 * The v7 compatibility library runs from API level 7 onwards -> Android 2.1
+
+##  Compatibility ActionBar - 2 - General Information cont.
+
 * In order to use this implementation of the ActionBar pattern, you will have do the following:
     * Use an AppCompat Theme: Theme.AppCompat (sounds familiar, doesn’t it)
     * Use the ActionBarActivity which itself is a v4 FragmentActivity. (FragmentActivity -> AppCompatActivity -> ActionBarActivity)
@@ -389,7 +394,7 @@ ActionBar.TabListener t = new ActionBar.TabListener() {
 * Toolbar supports two modes:
     * A more flexible ActionBar, functions as a drop in replacement
         * You need to use a theme not containing the ActionBar: Theme.AppCompat.NoActionBar
-    * Standalone mode (preffered!)
+    * Standalone mode
         * Since Toolbar is part of your view hierarchie and is in fact treated like a regular view, you can use multiple Toolbars in a single layout
 * You are able to inflate the Toolbar using the same menu resources that you used with the ActionBar
 
@@ -432,7 +437,8 @@ public void onCreate(Bundle savedInstanceState) {
     app:layout_scrollFlags="scroll|enterAlways"
     android:background="?attr/colorPrimary"
     app:popupTheme="@style/Theme.AppCompat.Light"
-    app:titleTextAppearance="@style/TextAppearance.ActionBar" />
+    app:titleTextAppearance=
+      "@style/TextAppearance.ActionBar" />
 ```
 
 ## Toolbar - 7 - Example: AppBarLayout cont.
@@ -484,7 +490,7 @@ public class TabListener
 # Conclusion
 
 ## Conclusion
-* The ActionBar pattern is important. It replaces the menu (button) on newer devices, even though there are backwards compatible menus available.
+* The ActionBar pattern is important. It replaces the menu (button) on current devices, even though there are backwards compatible menus available.
 * There is much more to ActionBar, please check out the documentation
 	* ActionProvider
 	* Drop down navigation
