@@ -26,10 +26,9 @@
 
 ## ActionBar - Introduction 2
 
-![ActionBar (source: http://developers.android.com/)](../actionbar-item-withtext.png)
+![ActionBar (source: http://developers.android.com/)](./actionbar-item-withtext.png)
 
-
-![ActionBar (source: http://developers.android.com/)](../actionbar-tabs@2x.png)
+![ActionBar (source: http://developers.android.com/)](./actionbar-tabs@2x.png)
 
 ## ActionBar - Concepts 1
 
@@ -53,11 +52,11 @@
 
 ## ActionBar - Concepts 3
 
-![ActionBar1 (source: http://developers.android.com/)](../back.png)
+![ActionBar1 (source: http://developers.android.com/)](./back.png)
 
 ## ActionBar - Concepts 4
 
-![ActionBar1 (source: http://developers.android.com/)](../up.png)
+![ActionBar1 (source: http://developers.android.com/)](./up.png)
 
 ## ActionBar - Acccess
 
@@ -228,7 +227,7 @@ public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 
 		@Override 
 		public void onCheckedChanged(
-			CompoundButton buttonView, 							boolean isChecked) { 
+			CompoundButton buttonView, boolean isChecked) { 
 			System.out.println("Check Changed: " + 
 				isChecked); 
 		} 
@@ -347,7 +346,7 @@ In order to use this implementation of the ActionBar pattern, you will have to u
 
 ## Toolbar - Resources 1
 
-* [http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html](http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html)
+* Lesson: [http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html](http://android-developers.blogspot.co.at/2014/10/appcompat-v21-material-design-for-pre.html)
 * JavaDoc:
 	* [https://developer.android.com/reference/android/support/v7/widget/Toolbar.html](https://developer.android.com/reference/android/support/v7/widget/Toolbar.html)
 
